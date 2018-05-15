@@ -1,0 +1,19 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/BoundingBoxVisualizer.cs">
+    <Files>
+      <File FileName="Assets/BoundingBoxVisualizer.cs" Line="274" Column="1" />
+      <File FileName="Assets/MeshSaverInterface.cs" Line="1" Column="1" />
+      <File FileName="Assets/ASL/Resources/Rooms/GradCouch3/GradCouch3Orientation copy.txt" Line="1" Column="1" />
+      <File FileName="Assets/ASL/Manipulation/Objects/ObjectInteractionManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/MeshSaver.cs" Line="1" Column="1" />
+      <File FileName="Assets/BoundCorners.cs" Line="1" Column="1" />
+      <File FileName="Assets/ASL/UWBNetworkingPackage/Scripts/Data Transfer/ServerFinder.cs" Line="1" Column="1" />
+      <File FileName="Assets/ASL/3rd Party Libraries/Tango/TangoSDK/Core/Scripts/TangoWrappers/VideoOverlayProvider.cs" Line="289" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
