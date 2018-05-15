@@ -438,6 +438,8 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 			return false;
 		}
 
+        float wiggleRoom = 0.05f;
+
 		Plane p = new Plane (faceCorners [0], faceCorners [1], faceCorners [2]);
 		Vector3 rayOrigin = edge.Key;
 		Vector3 rayDirection = (edge.Value - edge.Key).normalized;
@@ -448,9 +450,9 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 		float enter;
 		bool intersected = p.Raycast (r, out enter);
 		if (intersected) {
-			float edgeIntersectionRayLength = enter;//((rayOrigin + rayDirection * enter) - rayOrigin).magnitude;
+			float edgeIntersectionRayLength = ((rayOrigin + rayDirection * enter) - rayOrigin).magnitude;
 			if (edgeIntersectionRayLength > edgeLength) {
-				return false;
+				return false; // ERROR TESTING - THIS ISN'T TRIGGERING WHEN IT SHOULD
 			}
 
 			Vector3 hitPoint = rayOrigin + rayDirection * enter;
@@ -478,8 +480,9 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 				if (LineLineIntersection (out lineLineIntersectPoint, linePoint1, lineVec1, linePoint2, lineVec2)) {
 					Vector3 lineLineIntersectPointDir = (lineLineIntersectPoint - faceCenter).normalized;
 					float distanceToCenterForLineLineIntersection = (lineLineIntersectPoint - faceCenter).magnitude;
-					if (centPlaneEdgeIntersectDistance <= distanceToCenterForLineLineIntersection
-					    && Vector3.Dot (centPlaneEdgeIntersectRayDirection, lineLineIntersectPointDir) > 0) {
+					//if (centPlaneEdgeIntersectDistance <= (distanceToCenterForLineLineIntersection + wiggleRoom)
+					//    && Vector3.Dot (centPlaneEdgeIntersectRayDirection, lineLineIntersectPointDir) < -0.9) { // > 0
+                    if(centPlaneEdgeIntersectDistance <= (distanceToCenterForLineLineIntersection + wiggleRoom)) { 
 						continue;
 					} else {
 						liesWithinAllFaceEdges = false;
