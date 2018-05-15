@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoundingBoxVisualizer : MonoBehaviour {
     public Color NotContainedColor = Color.red;
     public Color ContainedColor = Color.green;
-    public bool IsGoContainedInMinMax = false;
+    public bool MinMaxIntersect = false;
     public GameObject MeshObjectToDisplayBoundsFor;
     public Vector3[] MinAndMax = new Vector3[2];
     public Vector3[] BoxCorners = new Vector3[8];
@@ -96,8 +96,8 @@ public class BoundingBoxVisualizer : MonoBehaviour {
             VisualizeBoxFromBoxCorners();
         }
 
-        IsGoContainedInMinMax = IsGoContainedInMinMaxCalc();
-        if (IsGoContainedInMinMax)
+        MinMaxIntersect = DoesMinMaxIntersectObject();
+        if (MinMaxIntersect)
         {
             LineColor = ContainedColor;
         }
@@ -202,38 +202,74 @@ public class BoundingBoxVisualizer : MonoBehaviour {
         }
     }
 
-    public bool IsGoContainedInMinMaxCalc()
+    public bool DoesMinMaxIntersectObject()
     {
         BoundCorners goCorners = CalculateCorners(GetBoundsFor(MeshObjectToDisplayBoundsFor), MeshObjectToDisplayBoundsFor);
         BoundCorners minMaxCorners = CalculateCorners(MinAndMax[0], MinAndMax[1]);
 
-		// Calculate if a corner of the mesh bounding box is in the minmax bounding box
-		bool MeshBBCornerInMinMaxBB = true;
-		bool fbl = IsLesserThanPoint(goCorners.FrontBottomLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontBottomLeft, MinAndMax[1]);
+        //// Calculate if a corner of the mesh bounding box is in the minmax bounding box
+        //bool MeshBBCornerInMinMaxBB = true;
+        //bool fbl = IsLesserThanPoint(goCorners.FrontBottomLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontBottomLeft, MinAndMax[1]);
+        //      if (!fbl)
+        //      {
+        //          bool ftl = IsLesserThanPoint(goCorners.FrontTopLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontTopLeft, MinAndMax[1]);
+        //          if (!ftl)
+        //          {
+        //              bool ftr = IsLesserThanPoint(goCorners.FrontTopRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontTopRight, MinAndMax[1]);
+        //              if (!ftr)
+        //              {
+        //                  bool fbr = IsLesserThanPoint(goCorners.FrontBottomRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontBottomRight, MinAndMax[1]);
+        //                  if (!fbr)
+        //                  {
+        //                      bool bbl = IsLesserThanPoint(goCorners.BackBottomLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackBottomLeft, MinAndMax[1]);
+        //                      if (!bbl)
+        //                      {
+        //                          bool btl = IsLesserThanPoint(goCorners.BackTopLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackTopLeft, MinAndMax[1]);
+        //                          if (!btl)
+        //                          {
+        //                              bool btr = IsLesserThanPoint(goCorners.BackTopRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackTopRight, MinAndMax[1]);
+        //                              if (!btr)
+        //                              {
+        //                                  bool bbr = IsLesserThanPoint(goCorners.BackBottomRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackBottomRight, MinAndMax[1]);
+        //                                  if (!bbr)
+        //                                  {
+        //								MeshBBCornerInMinMaxBB = false;
+        //                                  }
+        //                              }
+        //                          }
+        //                      }
+        //                  }
+        //              }
+        //          }
+        //      }
+
+        // Calculate if a corner of the mesh bounding box is in the minmax bounding box
+        bool MeshBBCornerInMinMaxBB = true;
+        bool fbl = CornersContains(goCorners.FrontBottomLeft, minMaxCorners);
         if (!fbl)
         {
-            bool ftl = IsLesserThanPoint(goCorners.FrontTopLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontTopLeft, MinAndMax[1]);
+            bool ftl = CornersContains(goCorners.FrontTopLeft, minMaxCorners);
             if (!ftl)
             {
-                bool ftr = IsLesserThanPoint(goCorners.FrontTopRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontTopRight, MinAndMax[1]);
+                bool ftr = CornersContains(goCorners.FrontTopRight, minMaxCorners);
                 if (!ftr)
                 {
-                    bool fbr = IsLesserThanPoint(goCorners.FrontBottomRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.FrontBottomRight, MinAndMax[1]);
+                    bool fbr = CornersContains(goCorners.FrontBottomRight, minMaxCorners);
                     if (!fbr)
                     {
-                        bool bbl = IsLesserThanPoint(goCorners.BackBottomLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackBottomLeft, MinAndMax[1]);
+                        bool bbl = CornersContains(goCorners.BackBottomLeft, minMaxCorners);
                         if (!bbl)
                         {
-                            bool btl = IsLesserThanPoint(goCorners.BackTopLeft, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackTopLeft, MinAndMax[1]);
+                            bool btl = CornersContains(goCorners.BackTopLeft, minMaxCorners);
                             if (!btl)
                             {
-                                bool btr = IsLesserThanPoint(goCorners.BackTopRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackTopRight, MinAndMax[1]);
+                                bool btr = CornersContains(goCorners.BackTopRight, minMaxCorners);
                                 if (!btr)
                                 {
-                                    bool bbr = IsLesserThanPoint(goCorners.BackBottomRight, MinAndMax[0]) && IsGreaterThanPoint(goCorners.BackBottomRight, MinAndMax[1]);
+                                    bool bbr = CornersContains(goCorners.BackBottomRight, minMaxCorners);
                                     if (!bbr)
                                     {
-										MeshBBCornerInMinMaxBB = false;
+                                        MeshBBCornerInMinMaxBB = false;
                                     }
                                 }
                             }
@@ -243,47 +279,82 @@ public class BoundingBoxVisualizer : MonoBehaviour {
             }
         }
 
-		if (MeshBBCornerInMinMaxBB) {
+        if (MeshBBCornerInMinMaxBB) {
 			return true;
 		}
 
-		// Calculate if a corner of the minmax bounding box is in the mesh bounding box
-		bool MinMaxBBCornerInMeshBB = true;
-		fbl = IsLesserThanPoint(minMaxCorners.FrontBottomLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontBottomLeft, goCorners.BackTopRight);
-		if (!fbl)
-		{
-			bool ftl = IsLesserThanPoint(minMaxCorners.FrontTopLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontTopLeft, goCorners.BackTopRight);
-			if (!ftl)
-			{
-				bool ftr = IsLesserThanPoint(minMaxCorners.FrontTopRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontTopRight, goCorners.BackTopRight);
-				if (!ftr)
-				{
-					bool fbr = IsLesserThanPoint(minMaxCorners.FrontBottomRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontBottomRight, goCorners.BackTopRight);
-					if (!fbr)
-					{
-						bool bbl = IsLesserThanPoint(minMaxCorners.BackBottomLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackBottomLeft, goCorners.BackTopRight);
-						if (!bbl)
-						{
-							bool btl = IsLesserThanPoint(minMaxCorners.BackTopLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackTopLeft, goCorners.BackTopRight);
-							if (!btl)
-							{
-								bool btr = IsLesserThanPoint(minMaxCorners.BackTopRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackTopRight, goCorners.BackTopRight);
-								if (!btr)
-								{
-									bool bbr = IsLesserThanPoint(minMaxCorners.BackBottomRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackBottomRight, goCorners.BackTopRight);
-									if (!bbr)
-									{
-										MinMaxBBCornerInMeshBB = false;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+        // Calculate if a corner of the minmax bounding box is in the mesh bounding box
+        //bool MinMaxBBCornerInMeshBB = true;
+        //fbl = IsLesserThanPoint(minMaxCorners.FrontBottomLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontBottomLeft, goCorners.BackTopRight);
+        //if (!fbl)
+        //{
+        //	bool ftl = IsLesserThanPoint(minMaxCorners.FrontTopLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontTopLeft, goCorners.BackTopRight);
+        //	if (!ftl)
+        //	{
+        //		bool ftr = IsLesserThanPoint(minMaxCorners.FrontTopRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontTopRight, goCorners.BackTopRight);
+        //		if (!ftr)
+        //		{
+        //			bool fbr = IsLesserThanPoint(minMaxCorners.FrontBottomRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.FrontBottomRight, goCorners.BackTopRight);
+        //			if (!fbr)
+        //			{
+        //				bool bbl = IsLesserThanPoint(minMaxCorners.BackBottomLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackBottomLeft, goCorners.BackTopRight);
+        //				if (!bbl)
+        //				{
+        //					bool btl = IsLesserThanPoint(minMaxCorners.BackTopLeft, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackTopLeft, goCorners.BackTopRight);
+        //					if (!btl)
+        //					{
+        //						bool btr = IsLesserThanPoint(minMaxCorners.BackTopRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackTopRight, goCorners.BackTopRight);
+        //						if (!btr)
+        //						{
+        //							bool bbr = IsLesserThanPoint(minMaxCorners.BackBottomRight, goCorners.FrontBottomLeft) && IsGreaterThanPoint(minMaxCorners.BackBottomRight, goCorners.BackTopRight);
+        //							if (!bbr)
+        //							{
+        //								MinMaxBBCornerInMeshBB = false;
+        //							}
+        //						}
+        //					}
+        //				}
+        //			}
+        //		}
+        //	}
+        //}
 
-		if (MinMaxBBCornerInMeshBB) {
+        bool MinMaxBBCornerInMeshBB = true;
+        fbl = CornersContains(minMaxCorners.FrontBottomLeft, goCorners);
+        if (!fbl)
+        {
+            bool ftl = CornersContains(minMaxCorners.FrontTopLeft, goCorners);
+            if (!ftl)
+            {
+                bool ftr = CornersContains(minMaxCorners.FrontTopRight, goCorners);
+                if (!ftr)
+                {
+                    bool fbr = CornersContains(minMaxCorners.FrontBottomRight, goCorners);
+                    if (!fbr)
+                    {
+                        bool bbl = CornersContains(minMaxCorners.BackBottomLeft, goCorners);
+                        if (!bbl)
+                        {
+                            bool btl = CornersContains(minMaxCorners.BackTopLeft, goCorners);
+                            if (!btl)
+                            {
+                                bool btr = CornersContains(minMaxCorners.BackTopRight, goCorners);
+                                if (!btr)
+                                {
+                                    bool bbr = CornersContains(minMaxCorners.BackBottomRight, goCorners);
+                                    if (!bbr)
+                                    {
+                                        MinMaxBBCornerInMeshBB = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (MinMaxBBCornerInMeshBB) {
 			return true;
 		}
 
@@ -497,6 +568,41 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 
         //return (xcon <= 0) && (ycon <= 0) && (zcon <= 0);
         return (b.x <= a.x) && (b.y <= a.y) && (b.z <= a.z);
+    }
+
+    public bool CornersContains(Vector3 point, BoundCorners corners)
+    {
+        // Create a vector from max to min
+        Vector3 min = corners.FrontBottomLeft;
+        Vector3 max = corners.BackTopRight;
+        
+        // Determine whether it has a positive dot product with all three nearest sides
+        // Repeat for the max side
+
+        Vector3 v = point - min;
+        Vector3 up = corners.FrontTopLeft - min;
+        Vector3 back = corners.BackBottomLeft - min;
+        Vector3 right = corners.FrontBottomRight - min;
+
+        if(Vector3.Dot(v, up) >= 0
+            && Vector3.Dot(v, back) >= 0
+            && Vector3.Dot(v, right) >= 0)
+        {
+            v = point - max;
+
+            up = corners.BackBottomRight - max;
+            back = corners.FrontTopRight - max;
+            right = corners.BackTopLeft - max;
+
+            if(Vector3.Dot(v, up) >= 0
+                && Vector3.Dot(v, back) >= 0
+                && Vector3.Dot(v, right) >= 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public Vector3 RotateBoundingBoxPoint(Vector3 point, GameObject go)
