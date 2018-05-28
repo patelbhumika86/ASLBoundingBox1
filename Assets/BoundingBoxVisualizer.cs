@@ -11,9 +11,13 @@ public class BoundingBoxVisualizer : MonoBehaviour {
     public Vector3[] MinAndMax = new Vector3[2];
     public Vector3[] BoxCorners = new Vector3[8];
 
-    private Color LineColor = Color.red;
+    [HideInInspector]
+    public Color LineColor = Color.red;
+    [HideInInspector]
     public bool GOTrigger = false;
+    [HideInInspector]
     public bool MinMaxTrigger = false;
+    [HideInInspector]
     public bool CornersTrigger = false;
 
     #region Editor Inspector Methods
@@ -97,7 +101,10 @@ public class BoundingBoxVisualizer : MonoBehaviour {
             VisualizeBoxFromBoxCorners();
         }
 
-        MinMaxIntersect = DoesMinMaxIntersectObject();
+
+        BoundCorners goCorners = CalculateCorners(GetBoundsFor(MeshObjectToDisplayBoundsFor), MeshObjectToDisplayBoundsFor);
+        BoundCorners minMaxCorners = CalculateCorners(MinAndMax[0], MinAndMax[1]);
+        MinMaxIntersect = Intersects(goCorners, minMaxCorners);
         if (MinMaxIntersect)
         {
             LineColor = ContainedColor;
@@ -203,10 +210,8 @@ public class BoundingBoxVisualizer : MonoBehaviour {
         }
     }
 
-    public bool DoesMinMaxIntersectObject()
+    public bool Intersects(BoundCorners goCorners, BoundCorners spaceCorners)
     {
-        BoundCorners goCorners = CalculateCorners(GetBoundsFor(MeshObjectToDisplayBoundsFor), MeshObjectToDisplayBoundsFor);
-        BoundCorners minMaxCorners = CalculateCorners(MinAndMax[0], MinAndMax[1]);
 
         //// Calculate if a corner of the mesh bounding box is in the minmax bounding box
         //bool MeshBBCornerInMinMaxBB = true;
@@ -246,28 +251,28 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 
         // Calculate if a corner of the mesh bounding box is in the minmax bounding box
         bool MeshBBCornerInMinMaxBB = true;
-        bool fbl = CornersContains(goCorners.FrontBottomLeft, minMaxCorners);
+        bool fbl = CornersContains(goCorners.FrontBottomLeft, spaceCorners);
         if (!fbl)
         {
-            bool ftl = CornersContains(goCorners.FrontTopLeft, minMaxCorners);
+            bool ftl = CornersContains(goCorners.FrontTopLeft, spaceCorners);
             if (!ftl)
             {
-                bool ftr = CornersContains(goCorners.FrontTopRight, minMaxCorners);
+                bool ftr = CornersContains(goCorners.FrontTopRight, spaceCorners);
                 if (!ftr)
                 {
-                    bool fbr = CornersContains(goCorners.FrontBottomRight, minMaxCorners);
+                    bool fbr = CornersContains(goCorners.FrontBottomRight, spaceCorners);
                     if (!fbr)
                     {
-                        bool bbl = CornersContains(goCorners.BackBottomLeft, minMaxCorners);
+                        bool bbl = CornersContains(goCorners.BackBottomLeft, spaceCorners);
                         if (!bbl)
                         {
-                            bool btl = CornersContains(goCorners.BackTopLeft, minMaxCorners);
+                            bool btl = CornersContains(goCorners.BackTopLeft, spaceCorners);
                             if (!btl)
                             {
-                                bool btr = CornersContains(goCorners.BackTopRight, minMaxCorners);
+                                bool btr = CornersContains(goCorners.BackTopRight, spaceCorners);
                                 if (!btr)
                                 {
-                                    bool bbr = CornersContains(goCorners.BackBottomRight, minMaxCorners);
+                                    bool bbr = CornersContains(goCorners.BackBottomRight, spaceCorners);
                                     if (!bbr)
                                     {
                                         MeshBBCornerInMinMaxBB = false;
@@ -321,28 +326,28 @@ public class BoundingBoxVisualizer : MonoBehaviour {
         //}
 
         bool MinMaxBBCornerInMeshBB = true;
-        fbl = CornersContains(minMaxCorners.FrontBottomLeft, goCorners);
+        fbl = CornersContains(spaceCorners.FrontBottomLeft, goCorners);
         if (!fbl)
         {
-            bool ftl = CornersContains(minMaxCorners.FrontTopLeft, goCorners);
+            bool ftl = CornersContains(spaceCorners.FrontTopLeft, goCorners);
             if (!ftl)
             {
-                bool ftr = CornersContains(minMaxCorners.FrontTopRight, goCorners);
+                bool ftr = CornersContains(spaceCorners.FrontTopRight, goCorners);
                 if (!ftr)
                 {
-                    bool fbr = CornersContains(minMaxCorners.FrontBottomRight, goCorners);
+                    bool fbr = CornersContains(spaceCorners.FrontBottomRight, goCorners);
                     if (!fbr)
                     {
-                        bool bbl = CornersContains(minMaxCorners.BackBottomLeft, goCorners);
+                        bool bbl = CornersContains(spaceCorners.BackBottomLeft, goCorners);
                         if (!bbl)
                         {
-                            bool btl = CornersContains(minMaxCorners.BackTopLeft, goCorners);
+                            bool btl = CornersContains(spaceCorners.BackTopLeft, goCorners);
                             if (!btl)
                             {
-                                bool btr = CornersContains(minMaxCorners.BackTopRight, goCorners);
+                                bool btr = CornersContains(spaceCorners.BackTopRight, goCorners);
                                 if (!btr)
                                 {
-                                    bool bbr = CornersContains(minMaxCorners.BackBottomRight, goCorners);
+                                    bool bbr = CornersContains(spaceCorners.BackBottomRight, goCorners);
                                     if (!bbr)
                                     {
                                         MinMaxBBCornerInMeshBB = false;
@@ -361,7 +366,7 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 
 		// Calculate if an edge of the mesh bounding box exists in the minmax bounding box
 		// or vice versa
-		bool edgeBoxIntersect = AnyEdgeBoxIntersect (goCorners, minMaxCorners);
+		bool edgeBoxIntersect = AnyEdgeBoxIntersect (goCorners, spaceCorners);
 		if (edgeBoxIntersect) {
 			return true;
 		}
