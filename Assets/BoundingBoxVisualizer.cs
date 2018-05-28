@@ -374,13 +374,13 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 		List<KeyValuePair<Vector3, Vector3>> otherEdges = GetEdges (otherCorners);
 
 		foreach (var edge in edges) {
-			if (EdgeBoxIntersect (edge, corners)) {
+			if (EdgeBoxIntersect (edge, otherCorners)) {
 				return true;
 			}
 		}
 
 		foreach (var edge in otherEdges) {
-			if (EdgeBoxIntersect (edge, otherCorners)) {
+			if (EdgeBoxIntersect (edge, corners)) {
 				return true;
 			}
 		}
@@ -452,10 +452,10 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 		if (intersected) {
 			float edgeIntersectionRayLength = ((rayOrigin + rayDirection * enter) - rayOrigin).magnitude;
 			if (edgeIntersectionRayLength > edgeLength) {
-				return false; // ERROR TESTING - THIS ISN'T TRIGGERING WHEN IT SHOULD
+				return false;
 			}
 
-			Vector3 hitPoint = rayOrigin + rayDirection * enter;
+            Vector3 hitPoint = rayOrigin + rayDirection * enter;
 
 			Vector3 faceCenter = faceCorners [0] + (faceCorners [2] - faceCorners [0]) / 2.0f;
 			Vector3 centPlaneEdgeIntersectRayDirection = (hitPoint - faceCenter).normalized;
