@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BoundingBoxVisualizer : MonoBehaviour {
+    public float EdgeIntersectMargin = 0.0003f;
     public Color NotContainedColor = Color.red;
     public Color ContainedColor = Color.green;
     public bool MinMaxIntersect = false;
@@ -438,8 +439,6 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 			return false;
 		}
 
-        float wiggleRoom = 0.05f;
-
 		Plane p = new Plane (faceCorners [0], faceCorners [1], faceCorners [2]);
 		Vector3 rayOrigin = edge.Key;
 		Vector3 rayDirection = (edge.Value - edge.Key).normalized;
@@ -482,7 +481,7 @@ public class BoundingBoxVisualizer : MonoBehaviour {
 					float distanceToCenterForLineLineIntersection = (lineLineIntersectPoint - faceCenter).magnitude;
 					//if (centPlaneEdgeIntersectDistance <= (distanceToCenterForLineLineIntersection + wiggleRoom)
 					//    && Vector3.Dot (centPlaneEdgeIntersectRayDirection, lineLineIntersectPointDir) < -0.9) { // > 0
-                    if(centPlaneEdgeIntersectDistance <= (distanceToCenterForLineLineIntersection + wiggleRoom)) { 
+                    if(centPlaneEdgeIntersectDistance <= (distanceToCenterForLineLineIntersection + EdgeIntersectMargin)) { 
 						continue;
 					} else {
 						liesWithinAllFaceEdges = false;

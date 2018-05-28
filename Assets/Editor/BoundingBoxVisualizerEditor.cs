@@ -11,6 +11,7 @@ public class BoundingBoxVisualizerEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        EditorGUILayout.HelpBox("The below edge intersect margin is recommended to avoid errors with exact point calculations concerning floats in 3D space. Effectively, this gives the algorithm some wiggle room to determine if an intersect is appropriate or not.", MessageType.Warning);
         DrawDefaultInspector();
 
         BoundingBoxVisualizer visualizer = (BoundingBoxVisualizer)target;
