@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 392}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -228,8 +228,8 @@ MonoBehaviour:
     y: 371
     width: 963
     height: 271
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 16}
@@ -289,14 +289,14 @@ MonoBehaviour:
     height: 350
   m_PersistentViewDataDictionary: {fileID: 0}
   m_SceneLighting: 1
-  lastFramingTime: 23.509909987449646
+  lastFramingTime: 55831.82734501362
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.1782176, y: 2.3022966, z: 0.91001546}
+    m_Target: {x: -0.94854856, y: 0.9170306, z: 0.42026615}
     speed: 2
-    m_Value: {x: 1.1782176, y: 2.3022966, z: 0.91001546}
+    m_Value: {x: -0.94854856, y: 0.9170306, z: 0.42026615}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -320,13 +320,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.0057301335, y: 0.94781625, z: 0.017062502, w: 0.31831002}
+    m_Target: {x: 0, y: 1, z: 0, w: 0}
     speed: 2
-    m_Value: {x: -0.0057301316, y: 0.9478159, z: 0.017062496, w: 0.3183099}
+    m_Value: {x: 0, y: 1, z: 0, w: 0}
   m_Size:
-    m_Target: 12.237004
+    m_Target: 13.438975
     speed: 2
-    m_Value: 12.237004
+    m_Value: 13.438975
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -366,24 +366,24 @@ MonoBehaviour:
     height: 350
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
-    scrollPos: {x: 0, y: 787}
-    m_SelectedIDs: 5c480000
-    m_LastClickedID: 18524
-    m_ExpandedIDs: 8efbffff96fbffff00000000c84800005c490000
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 64490000
+    m_LastClickedID: 18788
+    m_ExpandedIDs: 0422feff406bfeff42a0feff8efbffff96fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: GradCouch3Mesh_1
-      m_OriginalName: GradCouch3Mesh_1
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 18678
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 8}
     m_SearchString: 
@@ -450,7 +450,7 @@ MonoBehaviour:
       width: 679
       height: 333
     m_Scale: {x: 2.2597513, y: 2.2597513}
-    m_Translation: {x: 381.3849, y: 188.1243}
+    m_Translation: {x: 381.3849, y: 182.15002}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -458,7 +458,7 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -168.77295
-      y: -83.25
+      y: -80.606224
       width: 300.47556
       height: 147.36134
     m_MinimalGUI: 1
@@ -541,13 +541,13 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: 89
-  m_LastProjectPath: /Users/bhumi/Documents/Capstone/ASL
+  m_LastProjectPath: /Users/bhumi/Documents/GitHub/ASLBoundingBox1
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 302e0000
-    m_LastClickedID: 11824
-    m_ExpandedIDs: 00000000302e0000c02e000046360000ba3600008037000000380000b6380000083900001e390000803c0000283e00002a3f0000d442000000ca9a3bffffff7f
+    m_SelectedIDs: 342e0000
+    m_LastClickedID: 11828
+    m_ExpandedIDs: 00000000342e0000c42e0000da3200004a360000be3600008437000004380000ba3800000c39000022390000843c00002c3e00002e3f0000d842000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -575,7 +575,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000302e0000ba36000000380000b6380000803c0000283e00002a3f0000
+    m_ExpandedIDs: 00000000342e0000c42e0000da3200004a360000be3600008437000004380000ba3800000c39000022390000843c00002c3e00002e3f0000d8420000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -600,8 +600,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 244a0000
-    m_LastClickedInstanceID: 18980
+    m_SelectedInstanceIDs: b2f7ffff
+    m_LastClickedInstanceID: -2126
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000ee480000
     m_RenameOverlay:
@@ -627,7 +627,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 70}
     m_GridSize: 89
   m_DirectoriesAreaWidth: 233
 --- !u!114 &17
